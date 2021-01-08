@@ -1,0 +1,302 @@
+<main class="app-content">
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="tile">
+          <div class="tile-body">
+            <h4 class="d-inline-block">Select Items to Order!</h4>
+            <a  href="{{route('orderdetailspage')}}" class="btn btn-success float-right">Done</a>
+            
+             <div class="table-responsive  sampleTable mt-3">
+              <table class="table table-bordered sampleTable" >
+                <thead class="thead-light">
+                  <tr>
+                    <th class="align-middle text-center" rowspan="2">No</th>
+                    <th class="align-middle text-center" rowspan="2">Name</th>
+                    <th class="align-middle text-center" colspan="3">Price</th>
+                    <th class="align-middle text-center" colspan="3">Stock</th>
+                    <th class="align-middle text-center" rowspan="2">Qty</th>
+                    <th class="align-middle text-center" rowspan="2">Action</th>
+                  </tr>
+                  <tr>
+                    <th class="align-middle text-center">pc</th>
+                    <th class="align-middle text-center">dozen</th>
+                    <th class="align-middle text-center">set</th>
+                    <th class="align-middle text-center">pc</th>
+                    <th class="align-middle text-center">dozen</th>
+                    <th class="align-middle text-center">set</th>
+                  </tr>
+              </thead>
+              <tbody>
+            @php
+              $j=0;
+              @endphp
+              @foreach($products as $product)
+                        
+              <tr>
+                @php
+                $j+=1;
+                @endphp
+                  <tr class="table-info">
+                    <td> {{ $j }}</td>
+                    <td>{{ $product->name }} </td>
+                          
+                    <td class="align-middle text-right"> 
+                      <span class="unit" id="sp1{{ $product->id }}" 
+                        data-id='{{ $product->id }}'
+                        data-set='#un{{ $product->id }}'
+                        data-unit='pc_price'
+                        data-price='{{ $product->price_stock->pc_price }}'
+                        style=""
+                        data-active='0'
+                      >
+                        {{number_format( $product->price_stock->pc_price) }}
+                      </span> 
+                    </td>
+                    <td class="align-middle text-right">
+                      <span class="unit" id="sp2{{ $product->id }}" 
+                        data-id='{{ $product->id }}'
+                        data-set='#un{{ $product->id }}'
+                        data-unit='dozen_price'
+                        data-price='{{ $product->price_stock->dozen_price }}'
+                        style=""
+                        data-active='0'
+                    >
+                      {{number_format($product->price_stock->dozen_price) }}
+                      </span>
+                    </td>
+                    <td class="align-middle text-right">
+                    <span class="unit" id="sp3{{ $product->id }}" 
+                      data-id='{{ $product->id }}'
+                      data-set='#un{{ $product->id }}'
+                      data-unit='set_price'
+                      data-price='{{ $product->price_stock->set_price }} '
+                      style=""
+                      data-active='0'
+                    >
+                     {{ number_format($product->price_stock->set_price) }} 
+                    </span>
+                   </td>
+                    <td  class="align-middle text-right">
+                    <span id="pc{{ $product->id }}" >{{ $product->price_stock->pcs_count }}</span>  </td>
+                    <td  class="align-middle text-right">
+                    <span id="dc{{ $product->id }}"> {{ $product->price_stock->dozens_count }}</span> </td>
+                    <td  class="align-middle text-right"> 
+                     <span id="sc{{ $product->id }}"> {{ $product->price_stock->sets_count }}</span></td>
+                    <td class="align-middle text-center">  
+                      <input id="qty{{ $product->id }}" class="w-50 text-right" type="number" name="qty" value="0" min="0"                      
+                       >
+                      <input id="price{{ $product->id }}" class="w-50" type="hidden">
+                      <input id="unit{{ $product->id }}" class="w-50" type="hidden">
+                    </td>
+                    <td class="align-middle text-center">    
+                    {{-- <a href="#" class="btn btn-warning btn-sm">Details</a> --}}
+                    <button id='bt{{ $product->id }}' class="btn btn-warning btn-sm order"
+                      @guest
+                      data-user='none'
+                      @else                      
+                      data-user='{{Auth::user()->id}}'
+                      @endguest
+                      data-customer='{{$customerid}}'
+                      data-id='{{ $product->id }}'
+                      data-name='{{ $product->name }}'
+                      data-price='#price{{ $product->id }}'
+                      data-unit='#unit{{ $product->id }}'
+                      data-qty='#qty{{ $product->id }}'
+                    >Order</button>
+                    </td>
+                  </tr>
+                @endforeach
+              </tbody>
+            </table>
+           </div>
+          </div>
+        </div>
+      </div>   
+    </div>    
+  </main>
+
+{{-- simple data --}}
+                   {{--  <tr>
+                      <td>Tiger Nixon</td>
+                      <td>System Architect</td>
+                      <td>Edinburgh</td>
+                      <td>Edinburgh</td>
+                      <td>Edinburgh</td>
+                      <td>Edinburgh</td>
+                      <td>Edinburgh</td>
+
+                      <td>61</td>
+                      <td>2011/04/25</td>
+                      <td>$320,800</td>
+                    </tr>
+                    <tr>
+                      <td>Garrett Winters</td>
+                      <td>Accountant</td>
+                      <td>Tokyo</td>
+                      <td>Edinburgh</td>
+                      <td>Edinburgh</td>
+                      <td>Edinburgh</td>
+                      <td>Edinburgh</td>
+
+                      <td>63</td>
+                      <td>2011/07/25</td>
+                      <td>$170,750</td>
+                    </tr>
+                    <tr>
+                      <td>Ashton Cox</td>
+                      <td>Junior Technical Author</td>
+                      <td>San Francisco</td>
+                      <td>Edinburgh</td>
+                      <td>Edinburgh</td>
+                      <td>Edinburgh</td>
+                      <td>Edinburgh</td>
+
+                      <td>66</td>
+                      <td>2009/01/12</td>
+                      <td>$86,000</td>
+                    </tr>
+                    <tr>
+                      <td>Cedric Kelly</td>
+                      <td>Senior Javascript Developer</td>
+                      <td>Edinburgh</td>
+                      <td>Edinburgh</td>
+                      <td>Edinburgh</td>
+                      <td>Edinburgh</td>
+                      <td>Edinburgh</td>
+
+                      <td>22</td>
+                      <td>2012/03/29</td>
+                      <td>$433,060</td>
+                    </tr>
+                    <tr>
+                      <td>Airi Satou</td>
+                      <td>Accountant</td>
+                      <td>Tokyo</td>
+                      <td>Edinburgh</td>
+                      <td>Edinburgh</td>
+                      <td>Edinburgh</td>
+                      <td>Edinburgh</td>
+
+                      <td>33</td>
+                      <td>2008/11/28</td>
+                      <td>$162,700</td>
+                    </tr> --}}
+
+  {{-- <main class="app-content">
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="tile">
+          <div class="tile-body">
+            <h4 class="d-inline-block">Select Items to Order!</h4>
+            <a  href="{{route('orderdetailspage')}}" class="btn btn-success float-right">Done</a>
+            
+             <div class="table-responsive  sampleTable mt-3">
+              <table class="table table-bordered sampleTable" >
+                <thead class="thead-light">
+                  <tr>
+                    <th class="align-middle text-center" rowspan="2">No</th>
+                    <th class="align-middle text-center" rowspan="2">Name</th>
+                    <th class="align-middle text-center" colspan="3">Price</th>
+                    <th class="align-middle text-center" colspan="3">Stock</th>
+                    <th class="align-middle text-center" rowspan="2">Qty</th>
+                    <th class="align-middle text-center" rowspan="2">Action</th>
+                  </tr>
+                  <tr>
+                    <th class="align-middle text-center">pc</th>
+                    <th class="align-middle text-center">dozen</th>
+                    <th class="align-middle text-center">set</th>
+                    <th class="align-middle text-center">pc</th>
+                    <th class="align-middle text-center">dozen</th>
+                    <th class="align-middle text-center">set</th>
+                  </tr>
+              </thead>
+              <tbody>
+            @php
+              $j=0;
+              @endphp
+              @foreach($products as $product)
+                        
+              <tr>
+                @php
+                $j+=1;
+                @endphp
+                  <tr class="table-info">
+                    <td> {{ $j }}</td>
+                    <td>{{ $product->name }} </td>
+                          
+                    <td class="align-middle text-right"> 
+                      <span class="unit" id="sp1{{ $product->id }}" 
+                        data-id='{{ $product->id }}'
+                        data-set='#un{{ $product->id }}'
+                        data-unit='pc_price'
+                        data-price='{{ $product->price_stock->pc_price }}'
+                        style=""
+                        data-active='0'
+                      >
+                        {{number_format( $product->price_stock->pc_price) }}
+                      </span> 
+                    </td>
+                    <td class="align-middle text-right">
+                      <span class="unit" id="sp2{{ $product->id }}" 
+                        data-id='{{ $product->id }}'
+                        data-set='#un{{ $product->id }}'
+                        data-unit='dozen_price'
+                        data-price='{{ $product->price_stock->dozen_price }}'
+                        style=""
+                        data-active='0'
+                    >
+                      {{number_format($product->price_stock->dozen_price) }}
+                      </span>
+                    </td>
+                    <td class="align-middle text-right">
+                    <span class="unit" id="sp3{{ $product->id }}" 
+                      data-id='{{ $product->id }}'
+                      data-set='#un{{ $product->id }}'
+                      data-unit='set_price'
+                      data-price='{{ $product->price_stock->set_price }} '
+                      style=""
+                      data-active='0'
+                    >
+                     {{ number_format($product->price_stock->set_price) }} 
+                    </span>
+                   </td>
+                    <td  class="align-middle text-right">
+                    <span id="pc{{ $product->id }}" >{{ $product->price_stock->pcs_count }}</span>  </td>
+                    <td  class="align-middle text-right">
+                    <span id="dc{{ $product->id }}"> {{ $product->price_stock->dozens_count }}</span> </td>
+                    <td  class="align-middle text-right"> 
+                     <span id="sc{{ $product->id }}"> {{ $product->price_stock->sets_count }}</span></td>
+                    <td class="align-middle text-center">  
+                      <input id="qty{{ $product->id }}" class="w-50 text-right" type="number" name="qty" value="0" min="0"                      
+                       >
+                      <input id="price{{ $product->id }}" class="w-50" type="hidden">
+                      <input id="unit{{ $product->id }}" class="w-50" type="hidden">
+                    </td>
+                    <td class="align-middle text-center">    
+                    {{-- <a href="#" class="btn btn-warning btn-sm">Details</a> --}}
+                    <button id='bt{{ $product->id }}' class="btn btn-warning btn-sm order"
+                      @guest
+                      data-user='none'
+                      @else                      
+                      data-user='{{Auth::user()->id}}'
+                      @endguest
+                      data-customer='{{$customerid}}'
+                      data-id='{{ $product->id }}'
+                      data-name='{{ $product->name }}'
+                      data-price='#price{{ $product->id }}'
+                      data-unit='#unit{{ $product->id }}'
+                      data-qty='#qty{{ $product->id }}'
+                    >Order</button>
+                    </td>
+                  </tr>
+                @endforeach
+              </tbody>
+            </table>
+           </div>
+          </div>
+        </div>
+      </div>   
+    </div>    
+  {{-- </main> --}} --}}
